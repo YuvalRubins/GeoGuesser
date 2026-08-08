@@ -7,6 +7,8 @@
     3. Mount Fuji
     4. Statue of Liberty
     5. Sydney Opera House
+
+    Each round has 30 seconds.
 */
 
 
@@ -18,11 +20,13 @@ const locations = [
         lon: 2.2945
     },
 
+
     {
         name: "Machu Picchu, Peru",
         lat: -13.1631,
         lon: -72.5450
     },
+
 
     {
         name: "Mount Fuji, Japan",
@@ -30,11 +34,13 @@ const locations = [
         lon: 138.7274
     },
 
+
     {
         name: "Statue of Liberty, New York",
         lat: 40.6892,
         lon: -74.0445
     },
+
 
     {
         name: "Sydney Opera House, Australia",
@@ -45,9 +51,11 @@ const locations = [
 ];
 
 
-/* -------------------------
+
+/* =========================
    GAME STATE
-------------------------- */
+========================= */
+
 
 let gameLocations = [];
 
@@ -64,76 +72,143 @@ let answerMarker = null;
 let connectingLine = null;
 
 
-/* -------------------------
+/*
+    Timer state
+*/
+
+const ROUND_TIME = 30;
+
+let timeLeft = ROUND_TIME;
+
+let timer = null;
+
+
+
+/* =========================
    HTML ELEMENTS
-------------------------- */
+========================= */
+
 
 const roundElement =
-    document.getElementById("round");
+    document.getElementById(
+        "round"
+    );
+
+
+const timerElement =
+    document.getElementById(
+        "timer"
+    );
+
 
 const scoreElement =
-    document.getElementById("score");
+    document.getElementById(
+        "score"
+    );
+
 
 const guessButton =
-    document.getElementById("guessButton");
+    document.getElementById(
+        "guessButton"
+    );
+
+
+const questionElement =
+    document.getElementById(
+        "question"
+    );
+
 
 const resultOverlay =
-    document.getElementById("resultOverlay");
+    document.getElementById(
+        "resultOverlay"
+    );
+
 
 const locationName =
-    document.getElementById("locationName");
+    document.getElementById(
+        "locationName"
+    );
+
 
 const pointsElement =
-    document.getElementById("points");
+    document.getElementById(
+        "points"
+    );
+
 
 const distanceElement =
-    document.getElementById("distance");
+    document.getElementById(
+        "distance"
+    );
+
 
 const nextButton =
-    document.getElementById("nextButton");
+    document.getElementById(
+        "nextButton"
+    );
+
 
 const finalOverlay =
-    document.getElementById("finalOverlay");
+    document.getElementById(
+        "finalOverlay"
+    );
+
 
 const finalScore =
-    document.getElementById("finalScore");
+    document.getElementById(
+        "finalScore"
+    );
+
 
 const restartButton =
-    document.getElementById("restartButton");
+    document.getElementById(
+        "restartButton"
+    );
 
 
-/* -------------------------
+
+/* =========================
    MAP
-------------------------- */
+========================= */
 
-const map = L.map("map", {
 
-    worldCopyJump: true,
+const map = L.map(
+    "map",
+    {
 
-    minZoom: 2,
+        worldCopyJump: true,
 
-    maxZoom: 18
+        minZoom: 2,
 
-}).setView(
+        maxZoom: 18
+
+    }
+).setView(
     [20, 0],
     2
 );
 
 
+
 L.tileLayer(
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
+
         maxZoom: 19,
 
         attribution:
             "&copy; OpenStreetMap contributors"
+
     }
 ).addTo(map);
 
 
-/* -------------------------
+
+/* =========================
    SHUFFLE
-------------------------- */
+========================= */
+
 
 function shuffle(array) {
 
@@ -144,41 +219,60 @@ function shuffle(array) {
 }
 
 
-/* -------------------------
-   HAVERSINE DISTANCE
-------------------------- */
 
-function distanceKm(point1, point2) {
+/* =========================
+   DISTANCE
+========================= */
+
+
+function distanceKm(
+    point1,
+    point2
+) {
 
     const earthRadius = 6371;
+
 
     const lat1 =
         point1.lat *
         Math.PI /
         180;
 
+
     const lat2 =
         point2.lat *
         Math.PI /
         180;
 
+
     const deltaLat =
-        (point2.lat - point1.lat) *
+        (
+            point2.lat -
+            point1.lat
+        ) *
         Math.PI /
         180;
 
+
     const deltaLon =
-        (point2.lon - point1.lon) *
+        (
+            point2.lon -
+            point1.lon
+        ) *
         Math.PI /
         180;
 
 
     const a =
-        Math.sin(deltaLat / 2) ** 2 +
+        Math.sin(
+            deltaLat / 2
+        ) ** 2 +
 
         Math.cos(lat1) *
         Math.cos(lat2) *
-        Math.sin(deltaLon / 2) ** 2;
+        Math.sin(
+            deltaLon / 2
+        ) ** 2;
 
 
     return (
@@ -192,19 +286,15 @@ function distanceKm(point1, point2) {
 }
 
 
-/* -------------------------
+
+/* =========================
    SCORE
-------------------------- */
+========================= */
 
-function calculateScore(distance) {
 
-    /*
-        1000 points at the exact
-        location.
-
-        Score decreases exponentially
-        with distance.
-    */
+function calculateScore(
+    distance
+) {
 
     const score =
         1000 *
@@ -221,11 +311,14 @@ function calculateScore(distance) {
 }
 
 
-/* -------------------------
+
+/* =========================
    CLEAR MAP
-------------------------- */
+========================= */
+
 
 function clearMapMarkers() {
+
 
     if (guessMarker) {
 
@@ -234,6 +327,7 @@ function clearMapMarkers() {
         );
 
         guessMarker = null;
+
     }
 
 
@@ -244,6 +338,7 @@ function clearMapMarkers() {
         );
 
         answerMarker = null;
+
     }
 
 
@@ -254,59 +349,300 @@ function clearMapMarkers() {
         );
 
         connectingLine = null;
+
     }
 
 }
 
 
-/* -------------------------
+
+/* =========================
+   TIMER
+========================= */
+
+
+function startTimer() {
+
+
+    /*
+        Stop any previous timer.
+    */
+
+    clearInterval(timer);
+
+
+    /*
+        Reset timer.
+    */
+
+    timeLeft =
+        ROUND_TIME;
+
+
+    timerElement.textContent =
+        timeLeft;
+
+
+    /*
+        Start countdown.
+    */
+
+    timer =
+        setInterval(
+            function () {
+
+
+                timeLeft--;
+
+
+                timerElement.textContent =
+                    timeLeft;
+
+
+                /*
+                    Time has expired.
+                */
+
+                if (
+                    timeLeft <= 0
+                ) {
+
+                    clearInterval(
+                        timer
+                    );
+
+                    timer = null;
+
+
+                    timeUp();
+
+                }
+
+
+            },
+            1000
+        );
+
+}
+
+
+
+/* =========================
+   TIME UP
+========================= */
+
+
+function timeUp() {
+
+
+    /*
+        Disable guessing.
+    */
+
+    guessButton.disabled =
+        true;
+
+
+    /*
+        Show correct location.
+    */
+
+    answerMarker =
+        L.marker(
+            [
+                currentLocation.lat,
+                currentLocation.lon
+            ]
+        ).addTo(map);
+
+
+    answerMarker
+        .bindPopup(
+            currentLocation.name
+        )
+        .openPopup();
+
+
+    /*
+        If the player had already
+        clicked somewhere, show the
+        line to the correct location.
+    */
+
+    if (guessMarker) {
+
+        const guess =
+            guessMarker.getLatLng();
+
+
+        connectingLine =
+            L.polyline(
+                [
+                    [
+                        guess.lat,
+                        guess.lng
+                    ],
+
+                    [
+                        currentLocation.lat,
+                        currentLocation.lon
+                    ]
+                ],
+                {
+
+                    weight: 3,
+
+                    dashArray:
+                        "8 8"
+
+                }
+            ).addTo(map);
+
+
+        /*
+            Zoom to show both points.
+        */
+
+        const bounds =
+            L.latLngBounds(
+                [
+                    [
+                        guess.lat,
+                        guess.lng
+                    ],
+
+                    [
+                        currentLocation.lat,
+                        currentLocation.lon
+                    ]
+                ]
+            );
+
+
+        map.fitBounds(
+            bounds,
+            {
+
+                padding:
+                    [80, 180],
+
+                maxZoom: 7
+
+            }
+        );
+
+    }
+
+
+    /*
+        Show result.
+    */
+
+    locationName.textContent =
+        currentLocation.name;
+
+
+    pointsElement.textContent =
+        "+0";
+
+
+    distanceElement.textContent =
+        "Time's up!";
+
+
+    resultOverlay.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+
+/* =========================
    START GAME
-------------------------- */
+========================= */
+
 
 function startGame() {
 
+
+    /*
+        Stop any old timer.
+    */
+
+    clearInterval(timer);
+
+    timer = null;
+
+
+    /*
+        Randomize locations.
+    */
+
     gameLocations =
         shuffle(locations);
+
 
     currentRound = 0;
 
     totalScore = 0;
 
+
     scoreElement.textContent =
         "0";
+
 
     finalOverlay.classList.add(
         "hidden"
     );
+
 
     nextRound();
 
 }
 
 
-/* -------------------------
+
+/* =========================
    NEXT ROUND
-------------------------- */
+========================= */
+
 
 function nextRound() {
 
+
     clearMapMarkers();
+
 
     resultOverlay.classList.add(
         "hidden"
     );
 
 
+    /*
+        Check whether all rounds
+        have been completed.
+    */
+
     if (
         currentRound >=
         gameLocations.length
     ) {
 
+        clearInterval(timer);
+
+        timer = null;
+
         showFinalScore();
 
         return;
+
     }
 
+
+    /*
+        Get current location.
+    */
 
     currentLocation =
         gameLocations[
@@ -317,18 +653,42 @@ function nextRound() {
     currentRound++;
 
 
+    /*
+        Update round number.
+    */
+
     roundElement.textContent =
         currentRound;
 
-    document.getElementById("question").textContent =
-    currentLocation.name;
 
-    guessButton.disabled = true;
+    /*
+        IMPORTANT:
+        Display the location
+        the player needs to find.
+    */
+
+    questionElement.textContent =
+        currentLocation.name;
 
 
     /*
-        Start each round with
-        a worldwide view.
+        Disable GUESS until
+        player clicks the map.
+    */
+
+    guessButton.disabled =
+        true;
+
+
+    /*
+        Reset timer.
+    */
+
+    startTimer();
+
+
+    /*
+        Start with worldwide view.
     */
 
     map.setView(
@@ -342,17 +702,20 @@ function nextRound() {
 }
 
 
-/* -------------------------
+
+/* =========================
    MAP CLICK
-------------------------- */
+========================= */
+
 
 map.on(
     "click",
     function (event) {
 
+
         /*
             Don't allow clicking while
-            the result window is open.
+            result is displayed.
         */
 
         if (
@@ -362,11 +725,12 @@ map.on(
         ) {
 
             return;
+
         }
 
 
         /*
-            Remove previous guess.
+            Remove old guess.
         */
 
         if (guessMarker) {
@@ -379,7 +743,7 @@ map.on(
 
 
         /*
-            Create new guess marker.
+            Add new guess.
         */
 
         guessMarker =
@@ -394,7 +758,7 @@ map.on(
 
 
         /*
-            Enable the GUESS button.
+            Enable GUESS button.
         */
 
         guessButton.disabled =
@@ -404,23 +768,44 @@ map.on(
 );
 
 
-/* -------------------------
-   GUESS BUTTON
-------------------------- */
+
+/* =========================
+   GUESS
+========================= */
+
 
 guessButton.addEventListener(
     "click",
     function () {
 
+
         if (!guessMarker) {
 
             return;
+
         }
 
+
+        /*
+            Stop timer.
+        */
+
+        clearInterval(timer);
+
+        timer = null;
+
+
+        /*
+            Get guess position.
+        */
 
         const guess =
             guessMarker.getLatLng();
 
+
+        /*
+            Actual location.
+        */
 
         const actual = {
 
@@ -440,18 +825,21 @@ guessButton.addEventListener(
         const distance =
             distanceKm(
                 {
+
                     lat:
                         guess.lat,
 
                     lon:
                         guess.lng
+
                 },
+
                 actual
             );
 
 
         /*
-            Calculate score.
+            Calculate points.
         */
 
         const points =
@@ -460,7 +848,8 @@ guessButton.addEventListener(
             );
 
 
-        totalScore += points;
+        totalScore +=
+            points;
 
 
         scoreElement.textContent =
@@ -488,13 +877,14 @@ guessButton.addEventListener(
 
 
         /*
-            Draw line between
-            guess and answer.
+            Draw line from guess
+            to correct location.
         */
 
         connectingLine =
             L.polyline(
                 [
+
                     [
                         guess.lat,
                         guess.lng
@@ -504,24 +894,28 @@ guessButton.addEventListener(
                         currentLocation.lat,
                         currentLocation.lon
                     ]
+
                 ],
+
                 {
+
                     weight: 3,
 
                     dashArray:
                         "8 8"
+
                 }
             ).addTo(map);
 
 
         /*
-            Zoom so both points
-            are visible.
+            Zoom to show both.
         */
 
         const bounds =
             L.latLngBounds(
                 [
+
                     [
                         guess.lat,
                         guess.lng
@@ -531,6 +925,7 @@ guessButton.addEventListener(
                         currentLocation.lat,
                         currentLocation.lon
                     ]
+
                 ]
             );
 
@@ -538,16 +933,18 @@ guessButton.addEventListener(
         map.fitBounds(
             bounds,
             {
+
                 padding:
                     [80, 180],
 
                 maxZoom: 7
+
             }
         );
 
 
         /*
-            Update result window.
+            Update result.
         */
 
         locationName.textContent =
@@ -559,7 +956,9 @@ guessButton.addEventListener(
             points;
 
 
-        if (distance < 1) {
+        if (
+            distance < 1
+        ) {
 
             distanceElement.textContent =
                 Math.round(
@@ -567,7 +966,9 @@ guessButton.addEventListener(
                 ) +
                 " m away";
 
-        } else {
+        }
+
+        else {
 
             distanceElement.textContent =
                 Math.round(
@@ -587,6 +988,10 @@ guessButton.addEventListener(
         );
 
 
+        /*
+            Disable button.
+        */
+
         guessButton.disabled =
             true;
 
@@ -594,9 +999,11 @@ guessButton.addEventListener(
 );
 
 
-/* -------------------------
+
+/* =========================
    NEXT BUTTON
-------------------------- */
+========================= */
+
 
 nextButton.addEventListener(
     "click",
@@ -608,11 +1015,14 @@ nextButton.addEventListener(
 );
 
 
-/* -------------------------
+
+/* =========================
    FINAL SCORE
-------------------------- */
+========================= */
+
 
 function showFinalScore() {
+
 
     finalScore.textContent =
         totalScore.toLocaleString();
@@ -625,9 +1035,11 @@ function showFinalScore() {
 }
 
 
-/* -------------------------
+
+/* =========================
    RESTART
-------------------------- */
+========================= */
+
 
 restartButton.addEventListener(
     "click",
@@ -639,8 +1051,10 @@ restartButton.addEventListener(
 );
 
 
-/* -------------------------
+
+/* =========================
    START
-------------------------- */
+========================= */
+
 
 startGame();
