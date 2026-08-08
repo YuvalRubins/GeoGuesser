@@ -16,41 +16,60 @@
 const locations = [
 
     {
-        name: "Eiffel Tower, Paris",
-        lat: 48.8584,
-        lon: 2.2945
-    },
-
-
-    {
-        name: "Machu Picchu, Peru",
-        lat: -13.1631,
-        lon: -72.5450
-    },
-
-
-    {
-        name: "Mount Fuji, Japan",
-        lat: 35.3606,
-        lon: 138.7274
-    },
-
-
-    {
         name: "Statue of Liberty, New York",
         lat: 40.6892,
         lon: -74.0445
     },
 
+    {
+        name: "Golden Gate Bridge, San Francisco",
+        lat: 37.8199,
+        lon: -122.4783
+    },
 
     {
-        name: "Sydney Opera House, Australia",
-        lat: -33.8568,
-        lon: 151.2153
+        name: "Chichén Itzá, Mexico",
+        lat: 20.6843,
+        lon: -88.5678
+    },
+
+    {
+        name: "Antigua Guatemala",
+        lat: 14.5586,
+        lon: -90.7295
+    },
+
+    {
+        name: "Cancún, Mexico",
+        lat: 21.1619,
+        lon: -86.8515
+    },
+
+    {
+        name: "Yellowstone National Park",
+        lat: 44.4280,
+        lon: -110.5885
+    },
+
+    {
+        name: "Disneyland, California",
+        lat: 33.8121,
+        lon: -117.9190
+    },
+
+    {
+        name: "Tikal, Guatemala",
+        lat: 17.2220,
+        lon: -89.6237
+    },
+
+    {
+        name: "San José, Costa Rica",
+        lat: 9.9281,
+        lon: -84.0907
     }
 
 ];
-
 
 
 /* =========================
