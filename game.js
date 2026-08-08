@@ -169,7 +169,7 @@ let connectingLine = null;
 ========================= */
 
 
-const ROUND_TIME = 30;
+const ROUND_TIME = 40;
 
 let timeLeft = ROUND_TIME;
 
