@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
+
     <title>MapTap</title>
 
     <link
@@ -14,110 +18,179 @@
         crossorigin=""
     >
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
+
 <header class="topbar">
+
     <div class="brand">
-        <div class="logo">MAPTAP</div>
-        <div class="tagline">Where is it?</div>
+
+        <div class="logo">
+            MAPTAP
+        </div>
+
+        <div class="tagline">
+            Where is it?
+        </div>
+
     </div>
 
+
     <div class="game-info">
+
         <div>
             ROUND
             <strong id="round">1</strong>/5
         </div>
 
+
+        <div>
+            TIME
+            <strong id="timer">30</strong>
+        </div>
+
+
         <div>
             SCORE
             <strong id="score">0</strong>
         </div>
+
     </div>
+
 </header>
 
 
 <main>
 
+
     <div id="map"></div>
+
 
     <div class="bottom-panel">
 
-        <div id="question" class="question">
+
+        <div
+            id="question"
+            class="question"
+        >
             Where is it?
         </div>
 
+
         <div class="instruction">
-            Click anywhere on the map to place your guess
+            Click the map to place your guess
         </div>
 
-        <button id="guessButton" disabled>
+
+        <button
+            id="guessButton"
+            disabled
+        >
             GUESS
         </button>
 
+
     </div>
+
 
 </main>
 
 
-<!-- Result window -->
 
-<div id="resultOverlay" class="overlay hidden">
+<!-- RESULT -->
+
+<div
+    id="resultOverlay"
+    class="overlay hidden"
+>
+
 
     <div class="result-card">
+
 
         <div class="result-label">
             RESULT
         </div>
 
+
         <h2 id="locationName">
             Eiffel Tower
         </h2>
 
-        <div class="points" id="points">
+
+        <div
+            class="points"
+            id="points"
+        >
             +1000
         </div>
 
-        <div class="distance" id="distance">
+
+        <div
+            class="distance"
+            id="distance"
+        >
             0 km away
         </div>
+
 
         <button id="nextButton">
             NEXT
         </button>
 
+
     </div>
 
 </div>
 
 
-<!-- Final score -->
 
-<div id="finalOverlay" class="overlay hidden">
+<!-- FINAL SCORE -->
+
+<div
+    id="finalOverlay"
+    class="overlay hidden"
+>
+
 
     <div class="result-card">
+
 
         <div class="result-label">
             GAME COMPLETE
         </div>
 
-        <div class="final-score" id="finalScore">
+
+        <div
+            class="final-score"
+            id="finalScore"
+        >
             5000
         </div>
+
 
         <div class="final-text">
             out of 5000 points
         </div>
 
+
         <button id="restartButton">
             PLAY AGAIN
         </button>
 
+
     </div>
 
 </div>
+
 
 
 <script
@@ -125,7 +198,10 @@
     crossorigin=""
 ></script>
 
+
 <script src="game.js"></script>
 
+
 </body>
+
 </html>
