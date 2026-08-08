@@ -199,7 +199,8 @@ const restartButton =
         "restartButton"
     );
 
-
+const totalRoundsElement =
+    document.getElementById("totalRounds");
 
 /* =========================
    MAP
@@ -621,6 +622,8 @@ function startGame() {
     scoreElement.textContent =
         "0";
 
+    totalRoundsElement.textContent =
+        locations.length;
 
     finalOverlay.classList.add(
         "hidden"
