@@ -320,6 +320,8 @@ function nextRound() {
     roundElement.textContent =
         currentRound;
 
+    document.getElementById("question").textContent =
+    currentLocation.name;
 
     guessButton.disabled = true;
 
