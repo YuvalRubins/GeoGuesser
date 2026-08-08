@@ -591,8 +591,7 @@ function startGame() {
         Randomize locations.
     */
 
-    gameLocations =
-        shuffle(locations);
+    gameLocations = [...locations];
 
 
     currentRound = 0;
