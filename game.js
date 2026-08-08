@@ -207,12 +207,12 @@ const map = L.map(
 
 
 L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png",
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     {
-        maxZoom: 20,
+        maxZoom: 19,
 
         attribution:
-            "&copy; OpenStreetMap contributors &copy; CARTO"
+            "Tiles &copy; Esri"
     }
 ).addTo(map);
 
