@@ -205,19 +205,14 @@ const map = L.map(
 
 
 
-/*
-    Dark map WITHOUT labels.
-*/
 
 L.tileLayer(
-    "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
+    "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png",
     {
-
         maxZoom: 20,
 
         attribution:
             "&copy; OpenStreetMap contributors &copy; CARTO"
-
     }
 ).addTo(map);
 
