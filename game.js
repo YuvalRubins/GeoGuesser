@@ -1,15 +1,7 @@
 /*
     MAPTAP
 
-    Five locations:
-
-    1. Eiffel Tower
-    2. Machu Picchu
-    3. Mount Fuji
-    4. Statue of Liberty
-    5. Sydney Opera House
-
-    Each round has 30 seconds.
+    Locations are defined below.
 */
 
 
@@ -21,11 +13,13 @@ const locations = [
         lon: -74.0445
     },
 
+
     {
         name: "Golden Gate Bridge, San Francisco",
         lat: 37.8199,
         lon: -122.4783
     },
+
 
     {
         name: "Chichén Itzá, Mexico",
@@ -33,11 +27,13 @@ const locations = [
         lon: -88.5678
     },
 
+
     {
         name: "Antigua Guatemala",
         lat: 14.5586,
         lon: -90.7295
     },
+
 
     {
         name: "Cancún, Mexico",
@@ -45,11 +41,13 @@ const locations = [
         lon: -86.8515
     },
 
+
     {
         name: "Yellowstone National Park",
         lat: 44.4280,
         lon: -110.5885
     },
+
 
     {
         name: "Disneyland, California",
@@ -57,11 +55,13 @@ const locations = [
         lon: -117.9190
     },
 
+
     {
         name: "Tikal, Guatemala",
         lat: 17.2220,
         lon: -89.6237
     },
+
 
     {
         name: "San José, Costa Rica",
@@ -70,6 +70,7 @@ const locations = [
     }
 
 ];
+
 
 
 /* =========================
@@ -93,9 +94,10 @@ let connectingLine = null;
 
 
 
-/*
-    Timer
-*/
+/* =========================
+   TIMER
+========================= */
+
 
 const ROUND_TIME = 30;
 
@@ -128,6 +130,12 @@ const roundElement =
     );
 
 
+const totalRoundsElement =
+    document.getElementById(
+        "totalRounds"
+    );
+
+
 const timerElement =
     document.getElementById(
         "timer"
@@ -137,6 +145,12 @@ const timerElement =
 const scoreElement =
     document.getElementById(
         "score"
+    );
+
+
+const maxScoreElement =
+    document.getElementById(
+        "maxScore"
     );
 
 
@@ -199,8 +213,7 @@ const restartButton =
         "restartButton"
     );
 
-const totalRoundsElement =
-    document.getElementById("totalRounds");
+
 
 /* =========================
    MAP
@@ -225,31 +238,21 @@ const map = L.map(
 
 
 
+/*
+    Satellite map without labels.
+*/
 
 L.tileLayer(
     "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
     {
+
         maxZoom: 19,
 
         attribution:
             "Tiles &copy; Esri"
+
     }
 ).addTo(map);
-
-
-
-/* =========================
-   SHUFFLE
-========================= */
-
-
-function shuffle(array) {
-
-    return [...array].sort(
-        () => Math.random() - 0.5
-    );
-
-}
 
 
 
@@ -329,6 +332,14 @@ function calculateScore(
     distance
 ) {
 
+    /*
+        Maximum score:
+        1000 points.
+
+        Score decreases exponentially
+        with distance.
+    */
+
     const score =
         1000 *
         Math.exp(
@@ -397,16 +408,8 @@ function clearMapMarkers() {
 function startTimer() {
 
 
-    /*
-        Stop any previous timer.
-    */
-
     clearInterval(timer);
 
-
-    /*
-        Reset timer.
-    */
 
     timeLeft =
         ROUND_TIME;
@@ -416,14 +419,9 @@ function startTimer() {
         timeLeft;
 
 
-    /*
-        Start countdown.
-    */
-
     timer =
         setInterval(
             function () {
-
 
                 timeLeft--;
 
@@ -431,10 +429,6 @@ function startTimer() {
                 timerElement.textContent =
                     timeLeft;
 
-
-                /*
-                    Time has expired.
-                */
 
                 if (
                     timeLeft <= 0
@@ -451,7 +445,6 @@ function startTimer() {
 
                 }
 
-
             },
             1000
         );
@@ -467,10 +460,6 @@ function startTimer() {
 
 function timeUp() {
 
-
-    /*
-        Disable guessing.
-    */
 
     guessButton.disabled =
         true;
@@ -497,8 +486,8 @@ function timeUp() {
 
 
     /*
-        If the player placed a guess,
-        draw a line to the answer.
+        If there was a guess,
+        draw line to answer.
     */
 
     if (guessMarker) {
@@ -598,20 +587,20 @@ function timeUp() {
 function startGame() {
 
 
-    /*
-        Stop any previous timer.
-    */
-
     clearInterval(timer);
 
     timer = null;
 
 
     /*
-        Randomize locations.
+        Use locations in their
+        defined order.
+
+        There is NO shuffling.
     */
 
-    gameLocations = [...locations];
+    gameLocations =
+        [...locations];
 
 
     currentRound = 0;
@@ -619,11 +608,25 @@ function startGame() {
     totalScore = 0;
 
 
+    /*
+        Dynamic game information.
+    */
+
     scoreElement.textContent =
         "0";
 
+
     totalRoundsElement.textContent =
-        locations.length;
+        gameLocations.length;
+
+
+    maxScoreElement.textContent =
+        gameLocations.length * 1000;
+
+
+    /*
+        Hide final screen.
+    */
 
     finalOverlay.classList.add(
         "hidden"
@@ -631,8 +634,8 @@ function startGame() {
 
 
     /*
-        Clear any old location
-        text before the first round.
+        Do not show a location
+        before the first round.
     */
 
     questionElement.textContent =
@@ -640,7 +643,7 @@ function startGame() {
 
 
     /*
-        Start the first round.
+        Start first round.
     */
 
     nextRound();
@@ -666,8 +669,8 @@ function nextRound() {
 
 
     /*
-        Check whether all rounds
-        are complete.
+        Check whether all locations
+        have been played.
     */
 
     if (
@@ -679,6 +682,7 @@ function nextRound() {
 
         timer = null;
 
+
         showFinalScore();
 
         return;
@@ -687,7 +691,11 @@ function nextRound() {
 
 
     /*
-        Select location.
+        Select the next location.
+
+        Because gameLocations is not
+        shuffled, this follows the
+        exact order of the array.
     */
 
     currentLocation =
@@ -700,16 +708,19 @@ function nextRound() {
 
 
     /*
-        Update round number.
+        Update round display.
     */
 
     roundElement.textContent =
         currentRound;
 
 
+    totalRoundsElement.textContent =
+        gameLocations.length;
+
+
     /*
-        Display the location ONLY
-        when the round starts.
+        Show location name only now.
     */
 
     questionElement.textContent =
@@ -726,14 +737,14 @@ function nextRound() {
 
 
     /*
-        Start 30-second timer.
+        Start timer.
     */
 
     startTimer();
 
 
     /*
-        Worldwide starting view.
+        Start from worldwide view.
     */
 
     map.setView(
@@ -759,8 +770,8 @@ map.on(
 
 
         /*
-            Ignore clicks while
-            result is displayed.
+            Don't allow guessing while
+            the result window is open.
         */
 
         if (
@@ -788,7 +799,7 @@ map.on(
 
 
         /*
-            Create new guess.
+            Create guess marker.
         */
 
         guessMarker =
@@ -803,7 +814,7 @@ map.on(
 
 
         /*
-            Enable GUESS.
+            Enable GUESS button.
         */
 
         guessButton.disabled =
@@ -841,7 +852,7 @@ guessButton.addEventListener(
 
 
         /*
-            Get guess.
+            Get player's guess.
         */
 
         const guess =
@@ -849,7 +860,7 @@ guessButton.addEventListener(
 
 
         /*
-            Correct location.
+            Get actual location.
         */
 
         const actual = {
@@ -902,7 +913,7 @@ guessButton.addEventListener(
 
 
         /*
-            Show correct location.
+            Show actual location.
         */
 
         answerMarker =
@@ -941,7 +952,6 @@ guessButton.addEventListener(
                     ]
 
                 ],
-
                 {
 
                     weight: 3,
@@ -954,7 +964,8 @@ guessButton.addEventListener(
 
 
         /*
-            Zoom to show both.
+            Zoom so both locations
+            are visible.
         */
 
         const bounds =
@@ -989,7 +1000,7 @@ guessButton.addEventListener(
 
 
         /*
-            Update result screen.
+            Update result panel.
         */
 
         locationName.textContent =
@@ -1025,17 +1036,13 @@ guessButton.addEventListener(
 
 
         /*
-            Show result.
+            Show result panel.
         */
 
         resultOverlay.classList.remove(
             "hidden"
         );
 
-
-        /*
-            Disable GUESS.
-        */
 
         guessButton.disabled =
             true;
@@ -1073,6 +1080,16 @@ function showFinalScore() {
         totalScore.toLocaleString();
 
 
+    /*
+        Make sure the maximum is
+        always based on the actual
+        number of locations.
+    */
+
+    maxScoreElement.textContent =
+        gameLocations.length * 1000;
+
+
     finalOverlay.classList.remove(
         "hidden"
     );
@@ -1103,13 +1120,11 @@ restartButton.addEventListener(
 
 
 /*
-    IMPORTANT:
-    The game does NOT call
-    startGame() automatically.
+    The game does NOT start
+    automatically.
 
-    The first location is therefore
-    not selected until START GAME
-    is pressed.
+    The first location is selected
+    only after START GAME is pressed.
 */
 
 startButton.addEventListener(
@@ -1117,18 +1132,10 @@ startButton.addEventListener(
     function () {
 
 
-        /*
-            Hide start screen.
-        */
-
         startOverlay.classList.add(
             "hidden"
         );
 
-
-        /*
-            Actually start game.
-        */
 
         startGame();
 
