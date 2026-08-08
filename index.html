@@ -12,11 +12,13 @@
 
     <title>MapTap</title>
 
+
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         crossorigin=""
     >
+
 
     <link
         rel="stylesheet"
@@ -28,6 +30,47 @@
 
 <body>
 
+
+<!-- =========================
+     START SCREEN
+========================= -->
+
+<div
+    id="startOverlay"
+    class="overlay"
+>
+
+    <div class="result-card">
+
+        <div class="result-label">
+            MAPTAP
+        </div>
+
+
+        <h2>
+            Ready to play?
+        </h2>
+
+
+        <div class="final-text">
+            Find 5 locations before
+            time runs out.
+        </div>
+
+
+        <button id="startButton">
+            START GAME
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     TOP BAR
+========================= -->
 
 <header class="topbar">
 
@@ -68,8 +111,12 @@
 </header>
 
 
-<main>
 
+<!-- =========================
+     GAME
+========================= -->
+
+<main>
 
     <div id="map"></div>
 
@@ -77,11 +124,16 @@
     <div class="bottom-panel">
 
 
+        <!--
+            Empty at startup.
+            The location name is inserted
+            by JavaScript when the round starts.
+        -->
+
         <div
             id="question"
             class="question"
         >
-            Where is it?
         </div>
 
 
@@ -100,18 +152,18 @@
 
     </div>
 
-
 </main>
 
 
 
-<!-- RESULT -->
+<!-- =========================
+     RESULT
+========================= -->
 
 <div
     id="resultOverlay"
     class="overlay hidden"
 >
-
 
     <div class="result-card">
 
@@ -153,13 +205,14 @@
 
 
 
-<!-- FINAL SCORE -->
+<!-- =========================
+     FINAL SCORE
+========================= -->
 
 <div
     id="finalOverlay"
     class="overlay hidden"
 >
-
 
     <div class="result-card">
 
