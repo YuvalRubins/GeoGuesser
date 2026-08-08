@@ -2,6 +2,7 @@
     MAPTAP
 
     Five locations:
+
     1. Eiffel Tower
     2. Machu Picchu
     3. Mount Fuji
@@ -72,8 +73,9 @@ let answerMarker = null;
 let connectingLine = null;
 
 
+
 /*
-    Timer state
+    Timer
 */
 
 const ROUND_TIME = 30;
@@ -87,6 +89,18 @@ let timer = null;
 /* =========================
    HTML ELEMENTS
 ========================= */
+
+
+const startOverlay =
+    document.getElementById(
+        "startOverlay"
+    );
+
+
+const startButton =
+    document.getElementById(
+        "startButton"
+    );
 
 
 const roundElement =
@@ -107,15 +121,15 @@ const scoreElement =
     );
 
 
-const guessButton =
-    document.getElementById(
-        "guessButton"
-    );
-
-
 const questionElement =
     document.getElementById(
         "question"
+    );
+
+
+const guessButton =
+    document.getElementById(
+        "guessButton"
     );
 
 
@@ -191,17 +205,21 @@ const map = L.map(
 
 
 
+/*
+    Dark map WITHOUT labels.
+*/
+
 L.tileLayer(
     "https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png",
     {
+
         maxZoom: 20,
 
         attribution:
             "&copy; OpenStreetMap contributors &copy; CARTO"
+
     }
 ).addTo(map);
-document.getElementById("map").style.filter =
-    "saturate(1.35) contrast(1.08)";
 
 
 
@@ -464,9 +482,8 @@ function timeUp() {
 
 
     /*
-        If the player had already
-        clicked somewhere, show the
-        line to the correct location.
+        If the player placed a guess,
+        draw a line to the answer.
     */
 
     if (guessMarker) {
@@ -478,6 +495,7 @@ function timeUp() {
         connectingLine =
             L.polyline(
                 [
+
                     [
                         guess.lat,
                         guess.lng
@@ -487,6 +505,7 @@ function timeUp() {
                         currentLocation.lat,
                         currentLocation.lon
                     ]
+
                 ],
                 {
 
@@ -499,13 +518,10 @@ function timeUp() {
             ).addTo(map);
 
 
-        /*
-            Zoom to show both points.
-        */
-
         const bounds =
             L.latLngBounds(
                 [
+
                     [
                         guess.lat,
                         guess.lng
@@ -515,6 +531,7 @@ function timeUp() {
                         currentLocation.lat,
                         currentLocation.lon
                     ]
+
                 ]
             );
 
@@ -567,7 +584,7 @@ function startGame() {
 
 
     /*
-        Stop any old timer.
+        Stop any previous timer.
     */
 
     clearInterval(timer);
@@ -579,8 +596,8 @@ function startGame() {
         Randomize locations.
     */
 
-    gameLocations = locations;
-      //  shuffle(locations);
+    gameLocations =
+        shuffle(locations);
 
 
     currentRound = 0;
@@ -596,6 +613,19 @@ function startGame() {
         "hidden"
     );
 
+
+    /*
+        Clear any old location
+        text before the first round.
+    */
+
+    questionElement.textContent =
+        "";
+
+
+    /*
+        Start the first round.
+    */
 
     nextRound();
 
@@ -621,7 +651,7 @@ function nextRound() {
 
     /*
         Check whether all rounds
-        have been completed.
+        are complete.
     */
 
     if (
@@ -641,7 +671,7 @@ function nextRound() {
 
 
     /*
-        Get current location.
+        Select location.
     */
 
     currentLocation =
@@ -662,9 +692,8 @@ function nextRound() {
 
 
     /*
-        IMPORTANT:
-        Display the location
-        the player needs to find.
+        Display the location ONLY
+        when the round starts.
     */
 
     questionElement.textContent =
@@ -672,7 +701,7 @@ function nextRound() {
 
 
     /*
-        Disable GUESS until
+        Disable GUESS until the
         player clicks the map.
     */
 
@@ -681,14 +710,14 @@ function nextRound() {
 
 
     /*
-        Reset timer.
+        Start 30-second timer.
     */
 
     startTimer();
 
 
     /*
-        Start with worldwide view.
+        Worldwide starting view.
     */
 
     map.setView(
@@ -714,7 +743,7 @@ map.on(
 
 
         /*
-            Don't allow clicking while
+            Ignore clicks while
             result is displayed.
         */
 
@@ -730,7 +759,7 @@ map.on(
 
 
         /*
-            Remove old guess.
+            Remove previous guess.
         */
 
         if (guessMarker) {
@@ -743,7 +772,7 @@ map.on(
 
 
         /*
-            Add new guess.
+            Create new guess.
         */
 
         guessMarker =
@@ -758,7 +787,7 @@ map.on(
 
 
         /*
-            Enable GUESS button.
+            Enable GUESS.
         */
 
         guessButton.disabled =
@@ -770,7 +799,7 @@ map.on(
 
 
 /* =========================
-   GUESS
+   GUESS BUTTON
 ========================= */
 
 
@@ -796,7 +825,7 @@ guessButton.addEventListener(
 
 
         /*
-            Get guess position.
+            Get guess.
         */
 
         const guess =
@@ -804,7 +833,7 @@ guessButton.addEventListener(
 
 
         /*
-            Actual location.
+            Correct location.
         */
 
         const actual = {
@@ -839,7 +868,7 @@ guessButton.addEventListener(
 
 
         /*
-            Calculate points.
+            Calculate score.
         */
 
         const points =
@@ -857,7 +886,7 @@ guessButton.addEventListener(
 
 
         /*
-            Show actual location.
+            Show correct location.
         */
 
         answerMarker =
@@ -877,8 +906,8 @@ guessButton.addEventListener(
 
 
         /*
-            Draw line from guess
-            to correct location.
+            Draw line between
+            guess and answer.
         */
 
         connectingLine =
@@ -944,7 +973,7 @@ guessButton.addEventListener(
 
 
         /*
-            Update result.
+            Update result screen.
         */
 
         locationName.textContent =
@@ -989,7 +1018,7 @@ guessButton.addEventListener(
 
 
         /*
-            Disable button.
+            Disable GUESS.
         */
 
         guessButton.disabled =
@@ -1053,8 +1082,39 @@ restartButton.addEventListener(
 
 
 /* =========================
-   START
+   START BUTTON
 ========================= */
 
 
-startGame();
+/*
+    IMPORTANT:
+    The game does NOT call
+    startGame() automatically.
+
+    The first location is therefore
+    not selected until START GAME
+    is pressed.
+*/
+
+startButton.addEventListener(
+    "click",
+    function () {
+
+
+        /*
+            Hide start screen.
+        */
+
+        startOverlay.classList.add(
+            "hidden"
+        );
+
+
+        /*
+            Actually start game.
+        */
+
+        startGame();
+
+    }
+);
