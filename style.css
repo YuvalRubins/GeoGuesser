@@ -2,117 +2,162 @@
     box-sizing: border-box;
 }
 
+
 html,
 body {
+
     margin: 0;
     padding: 0;
+
     width: 100%;
     height: 100%;
+
     font-family:
         Arial,
         Helvetica,
         sans-serif;
+
     overflow: hidden;
+
     background: #f3f5f7;
+
     color: #17202a;
 }
 
 
-/* -------------------------
+
+/* =========================
    TOP BAR
-------------------------- */
+========================= */
 
 .topbar {
+
     height: 68px;
 
     display: flex;
+
     align-items: center;
 
     padding: 0 20px;
 
     background: white;
 
-    border-bottom: 1px solid #dce1e5;
+    border-bottom:
+        1px solid #dce1e5;
 
     position: relative;
+
     z-index: 1000;
 }
 
 
+
 .brand {
+
     display: flex;
+
     align-items: center;
+
     gap: 12px;
 }
 
 
+
 .logo {
+
     font-size: 22px;
+
     font-weight: 900;
 
     letter-spacing: 2px;
 }
 
 
+
 .tagline {
+
     font-size: 13px;
+
     color: #7a838a;
 }
 
 
+
 .game-info {
+
     margin-left: auto;
 
     display: flex;
+
     gap: 30px;
 
     font-size: 12px;
+
     font-weight: 700;
 
     color: #687179;
 }
 
 
+
 .game-info strong {
+
     color: #111;
+
     font-size: 18px;
+
     margin-left: 4px;
 }
 
 
-/* -------------------------
+
+/* =========================
    MAP
-------------------------- */
+========================= */
 
 main {
+
     position: relative;
 
-    height: calc(100vh - 68px);
+    height:
+        calc(100vh - 68px);
+
     width: 100%;
 }
 
 
+
 #map {
+
     width: 100%;
+
     height: 100%;
 }
 
 
-/* -------------------------
+
+/* =========================
    BOTTOM PANEL
-------------------------- */
+========================= */
 
 .bottom-panel {
+
     position: absolute;
 
     z-index: 900;
 
     left: 50%;
+
     bottom: 20px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    width: min(500px, calc(100% - 30px));
+    width:
+        min(
+            500px,
+            calc(100% - 30px)
+        );
 
     padding: 16px;
 
@@ -121,20 +166,27 @@ main {
     border-radius: 16px;
 
     box-shadow:
-        0 8px 35px rgba(0, 0, 0, 0.18);
+        0 8px 35px
+        rgba(0, 0, 0, 0.18);
 
     text-align: center;
 }
 
 
+
 .question {
+
     font-size: 21px;
+
     font-weight: 800;
 }
 
 
+
 .instruction {
+
     margin-top: 5px;
+
     margin-bottom: 12px;
 
     font-size: 13px;
@@ -143,12 +195,15 @@ main {
 }
 
 
+
 button {
+
     width: 100%;
 
     padding: 14px;
 
     border: none;
+
     border-radius: 10px;
 
     background: #1677ff;
@@ -156,6 +211,7 @@ button {
     color: white;
 
     font-size: 16px;
+
     font-weight: 800;
 
     cursor: pointer;
@@ -166,27 +222,36 @@ button {
 }
 
 
+
 button:hover:not(:disabled) {
+
     background: #0868e8;
 }
 
 
+
 button:active:not(:disabled) {
+
     transform: scale(0.99);
 }
 
 
+
 button:disabled {
+
     background: #b8c0c7;
+
     cursor: not-allowed;
 }
 
 
-/* -------------------------
+
+/* =========================
    OVERLAYS
-------------------------- */
+========================= */
 
 .overlay {
+
     position: fixed;
 
     z-index: 2000;
@@ -196,6 +261,7 @@ button:disabled {
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     padding: 20px;
@@ -205,13 +271,21 @@ button:disabled {
 }
 
 
+
 .hidden {
+
     display: none;
 }
 
 
+
 .result-card {
-    width: min(390px, 100%);
+
+    width:
+        min(
+            390px,
+            100%
+        );
 
     padding: 30px;
 
@@ -222,11 +296,14 @@ button:disabled {
     text-align: center;
 
     box-shadow:
-        0 15px 60px rgba(0, 0, 0, 0.3);
+        0 15px 60px
+        rgba(0, 0, 0, 0.3);
 }
 
 
+
 .result-label {
+
     font-size: 12px;
 
     font-weight: 800;
@@ -237,17 +314,20 @@ button:disabled {
 }
 
 
+
 .result-card h2 {
+
     margin:
-        10px
-        0
+        10px 0
         12px;
 
     font-size: 25px;
 }
 
 
+
 .points {
+
     font-size: 44px;
 
     font-weight: 900;
@@ -256,19 +336,25 @@ button:disabled {
 }
 
 
+
 .distance {
+
     color: #68727a;
 
     font-size: 15px;
 }
 
 
+
 .result-card button {
+
     margin-top: 22px;
 }
 
 
+
 .final-score {
+
     margin-top: 15px;
 
     font-size: 56px;
@@ -277,32 +363,41 @@ button:disabled {
 }
 
 
+
 .final-text {
+
     color: #707980;
 }
 
 
-/* -------------------------
+
+/* =========================
    LEAFLET
-------------------------- */
+========================= */
 
 .leaflet-control-zoom {
+
     margin-top: 12px !important;
 }
 
 
+
 .leaflet-popup-content {
+
     font-weight: 700;
 }
 
 
-/* -------------------------
+
+/* =========================
    MOBILE
-------------------------- */
+========================= */
 
 @media (max-width: 600px) {
 
+
     .topbar {
+
         height: 58px;
 
         padding: 0 12px;
@@ -310,21 +405,26 @@ button:disabled {
 
 
     main {
-        height: calc(100vh - 58px);
+
+        height:
+            calc(100vh - 58px);
     }
 
 
     .logo {
+
         font-size: 18px;
     }
 
 
     .tagline {
+
         display: none;
     }
 
 
     .game-info {
+
         gap: 15px;
 
         font-size: 10px;
@@ -332,11 +432,13 @@ button:disabled {
 
 
     .game-info strong {
+
         font-size: 15px;
     }
 
 
     .bottom-panel {
+
         bottom: 10px;
 
         padding: 14px;
@@ -344,16 +446,20 @@ button:disabled {
 
 
     .question {
+
         font-size: 19px;
     }
 
 
     .instruction {
+
         font-size: 12px;
     }
 
 
     .leaflet-control-zoom {
+
         display: none;
     }
+
 }
