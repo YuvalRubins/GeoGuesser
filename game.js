@@ -5,7 +5,7 @@
 */
 
 
-const locations = const locations = [
+const locations = [
 
     {
         name: "Ben Gurion Airport, Israel",
