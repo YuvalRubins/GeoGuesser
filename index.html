@@ -48,17 +48,21 @@
 
 
         <h2>
-            Ready to play?
+            Choose a game
         </h2>
 
 
-        <div class="final-text">
-            Find all the locations before
-            time runs out.
+        <div
+            id="gameList"
+            class="game-list"
+        >
         </div>
 
 
-        <button id="startButton">
+        <button
+            id="startButton"
+            disabled
+        >
             START GAME
         </button>
 
@@ -246,6 +250,7 @@
     crossorigin=""
 ></script>
 
+<script src="locations.js"></script>
 
 <script src="game.js"></script>
 
