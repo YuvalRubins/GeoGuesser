@@ -699,3 +699,64 @@ button:disabled {
     }
 
 }
+
+.game-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin:
+        20px 0;
+}
+
+
+.game-option {
+
+    width: 100%;
+
+    padding: 16px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #202a35;
+
+    border:
+        2px solid #394653;
+
+    border-radius: 12px;
+
+    color: white;
+
+    text-align: left;
+}
+
+
+.game-option:hover {
+
+    background: #283542;
+
+    border-color: #1677ff;
+}
+
+
+.game-option.selected {
+
+    border-color: #1677ff;
+
+    background: #1d3657;
+}
+
+
+.game-option small {
+
+    color: #9ba7b3;
+
+    font-size: 12px;
+}
