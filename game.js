@@ -151,6 +151,10 @@ const restartButton =
         "restartButton"
     );
 
+const gameNameTag =
+    document.getElementById(
+        "gameName"
+    );
 
 
 /* =========================
@@ -281,7 +285,7 @@ function calculateScore(
     const score =
         1000 *
         Math.exp(
-            -distance / 1800
+            -distance / selectedGame.score_factor
         );
 
 
@@ -655,6 +659,8 @@ function startGame() {
     maxScoreElement.textContent =
         gameLocations.length * 1000;
 
+    gameNameTag.textContent = selectedGame.name;
+
 
     /*
         Hide final screen.
@@ -780,8 +786,8 @@ function nextRound() {
     */
 
     map.setView(
-        [20, 0],
-        2,
+        [selectedGame.initial_location.lat, selectedGame.initial_location.lon],
+        selectedGame.initial_location.zoom,
         {
             animate: false
         }
@@ -1025,7 +1031,7 @@ guessButton.addEventListener(
                 padding:
                     [80, 180],
 
-                maxZoom: 7
+                maxZoom: selectedGame.post_zoom
 
             }
         );
@@ -1139,7 +1145,49 @@ restartButton.addEventListener(
     "click",
     function () {
 
-        startGame();
+        /*
+            Hide the final score screen.
+        */
+
+        finalOverlay.classList.add(
+            "hidden"
+        );
+
+
+        /*
+            Clear the previously
+            selected game.
+        */
+
+        selectedGame =
+            null;
+
+
+        /*
+            Disable START GAME until
+            a new game is selected.
+        */
+
+        startButton.disabled =
+            true;
+
+
+        /*
+            Remove the previous
+            selection buttons and
+            create them again.
+        */
+
+        showGameSelection();
+
+
+        /*
+            Show the start menu.
+        */
+
+        startOverlay.classList.remove(
+            "hidden"
+        );
 
     }
 );

@@ -1,7 +1,16 @@
 const games = [
 
     {
-        name: "My Travel Game",
+        name: "Lilach and Yuval's Trip",
+
+        initial_location: {
+            lat: 20,
+            lon: 0,
+            zoom: 2
+        },
+
+        score_factor: 1800,
+        post_zoom: 7,
 
         locations: [
 
@@ -142,35 +151,148 @@ const games = [
 
 
     {
-        name: "World Landmarks",
+        name: "Disneyland",
+
+        initial_location: {
+            lat: 33.8121,
+            lon: -117.9190,
+            zoom: 15.5
+        },
+
+        score_factor: 10,
+        post_zoom: 15.5,
 
         locations: [
 
+            /*
+                DISNEYLAND PARK
+            */
+
             {
-                name: "Eiffel Tower, Paris",
-                lat: 48.8584,
-                lon: 2.2945
+                name: "Sleeping Beauty Castle",
+                lat: 33.81281,
+                lon: -117.91896
             },
 
             {
-                name: "Machu Picchu, Peru",
-                lat: -13.1631,
-                lon: -72.5450
+                name: "Star Wars: Rise of the Resistance",
+                lat: 33.81440,
+                lon: -117.92272
             },
 
             {
-                name: "Mount Fuji, Japan",
-                lat: 35.3606,
-                lon: 138.7274
+                name: "Millennium Falcon: Smugglers Run",
+                lat: 33.81521,
+                lon: -117.92138
             },
 
             {
-                name: "Sydney Opera House, Australia",
-                lat: -33.8568,
-                lon: 151.2153
+                name: "Space Mountain",
+                lat: 33.81098,
+                lon: -117.91752
+            },
+
+            {
+                name: "Matterhorn Bobsleds",
+                lat: 33.81307,
+                lon: -117.91785
+            },
+
+            {
+                name: "Pirates of the Caribbean",
+                lat: 33.81100,
+                lon: -117.92120
+            },
+
+            {
+                name: "Haunted Mansion",
+                lat: 33.81149,
+                lon: -117.92256
+            },
+
+            {
+                name: "Indiana Jones Adventure",
+                lat: 33.81062,
+                lon: -117.91955
+            },
+
+            {
+                name: "Big Thunder Mountain Railroad",
+                lat: 33.81267,
+                lon: -117.92036
+            },
+
+            {
+                name: "it's a small world",
+                lat: 33.81513,
+                lon: -117.91759
+            },
+
+
+            /*
+                DISNEY CALIFORNIA ADVENTURE
+            */
+
+            {
+                name: "Radiator Springs Racers",
+                lat: 33.80424,
+                lon: -117.91907
+            },
+
+            {
+                name: "Incredicoaster",
+                lat: 33.80456,
+                lon: -117.92197
+            },
+
+            {
+                name: "Guardians of the Galaxy – Mission: BREAKOUT!",
+                lat: 33.80663,
+                lon: -117.91691
+            },
+
+            {
+                name: "WEB SLINGERS: A Spider-Man Adventure",
+                lat: 33.80672,
+                lon: -117.91755
+            },
+
+            {
+                name: "Soarin' Around the World",
+                lat: 33.80842,
+                lon: -117.92002
+            },
+
+            {
+                name: "Toy Story Midway Mania!",
+                lat: 33.80455,
+                lon: -117.92153
+            },
+
+            {
+                name: "Pixar Pal-A-Round",
+                lat: 33.80514,
+                lon: -117.92219
+            },
+
+            {
+                name: "Grizzly River Run",
+                lat: 33.80719,
+                lon: -117.92064
+            },
+
+            {
+                name: "The Little Mermaid – Ariel's Undersea Adventure",
+                lat: 33.80758,
+                lon: -117.92225
+            },
+
+            {
+                name: "Monsters, Inc. Mike & Sulley to the Rescue!",
+                lat: 33.80814,
+                lon: -117.91872
             }
 
         ]
     }
-
 ];
