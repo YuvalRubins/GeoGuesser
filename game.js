@@ -170,7 +170,7 @@ const map = L.map(
 
         minZoom: 2,
 
-        maxZoom: 20
+        maxZoom: 19
 
     }
 ).setView(
