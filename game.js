@@ -1163,6 +1163,12 @@ startButton.addEventListener(
     "click",
     function () {
 
+        if (!selectedGame) {
+
+            return;
+
+        }
+
 
         startOverlay.classList.add(
             "hidden"
